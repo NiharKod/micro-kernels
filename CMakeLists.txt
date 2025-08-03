@@ -1,15 +1,13 @@
-cmake_minimum_required(VERSION 3.18)
-project(TinyTensorKernels LANGUAGES CUDA CXX)
+cmake_minimum_required(VERSION 3.12)
+project(microkernels LANGUAGES CXX CUDA)
 
-#  -- HEADER-ONLY interface library --
-add_library(tiny_tensor_kernels INTERFACE)
-target_include_directories(tiny_tensor_kernels INTERFACE
-  ${PROJECT_SOURCE_DIR}/include
-)
+# Set C++ and CUDA standards
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CUDA_STANDARD 17)
 
-#  -- optional test build --
-enable_testing()
-add_executable(smoke_test tests/smoke_test.cu)
-target_link_libraries(smoke_test PRIVATE tiny_tensor_kernels)
-add_test(NAME smoke_test COMMAND smoke_test)
+# Include the header-only library
+include_directories(include)
 
+# Add smoke test executable
+add_executable(smoke_elementwise tests/smoke_elementwise.cu)
+add_executable(smoke_reduction tests/smoke_reduction.cu)
